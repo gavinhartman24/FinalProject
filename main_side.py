@@ -252,5 +252,3 @@ while running:
     pg.display.flip()
 # stops the program
 pg.quit()
-
-#new test comment 
