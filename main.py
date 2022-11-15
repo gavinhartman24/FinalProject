@@ -1,3 +1,12 @@
+# OVERVIEW
+# # In this game, the player will move up through a maze of platforms to get a prize. Once the player gets the prize it 
+# # moves on to a more difficult level. There are 3 levels needed to pass to win.
+# What is used?
+# # pygame, randint library, and a picture of a trophy as the prize
+
+
+
+
 # Cited: Mr. Cozorts library 
 
 # I am trying to make a game that allows for a player to move around the screen over platforms to "eat" mobs
