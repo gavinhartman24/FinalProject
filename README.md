@@ -26,5 +26,6 @@ Version History
 
 
 Acknowledgments
+
 w3Schools
 PyGame
