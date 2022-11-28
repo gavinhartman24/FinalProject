@@ -4,10 +4,21 @@
 # What is used?
 # # pygame, randint library, and a picture of a trophy as the prize
 
+# Cite:
+## Mr. Cozorts library, w3schools.com, geeksforgeeks.org (https://www.geeksforgeeks.org/how-to-add-moving-platforms-in-pygame/#:~:text=How%20to%20add%20moving%20platforms%20in%20PyGame%201,...%203%20Adding%20Player%20Sprite%20and%20Collision%20)
+##  
+
+# LIBRARIES
+import pygame as pg
+# import settings
+# from settings import *
+from pygame.sprite import Sprite
+import random
+from random import randint
+from pygame.locals import *
 
 
 
-# Cited: Mr. Cozorts library 
 
 # I am trying to make a game that allows for a player to move around the screen over platforms to "eat" mobs
 
@@ -27,6 +38,7 @@ from random import randint
 
 # provides directiom
 vec = pg.math.Vector2
+
 
 
 # # game settings 
@@ -96,7 +108,7 @@ class Player(Sprite):
     # allows the player tp jump up and around blocks.
     def jump(self):
         self.rect.x += .5
-        self.rect.x += -.5
+        self.rect.x += -3
     # tells the person where it is on the screen 
     def update(self):
         self.acc = vec(0,PLAYER_GRAV)
@@ -142,8 +154,6 @@ class Player(Sprite):
                 self.colliding = True
                 xdiff = abs(self.rect.centerx - hits[0].rect.centerx)
                 ydiff = abs(self.rect.centery - hits[0].rect.centery)
-                
-
                 if hits[0].rect.centery > self.rect.centery and xdiff < ydiff:
                     self.pos.y = hits[0].rect.top - self.rect.height/2
                 if hits[0].rect.centery < self.rect.centery and xdiff < ydiff:
@@ -240,14 +250,26 @@ while running:
 #    established the FPS clock
     delta = clock.tick(FPS)
 
-    # draws the fps clock seen in game
+    # code to make the player collide with the platform used for geeksforgeeks.com
+    # aim is to make a platform where the playe doesn't go through, because previous code the player did
+    # 
+
+    player_x = 0
+    player_y = 390
+    x = 150
+    y= 50
+    rect = Rect(x, y, 200, 50)
+    player_rect = Rect(player_x, player_y, 50, 50)
+    collide = pg.Rect.colliderect(rect, player_rect) 
+
+    if collide:
+        
+        pass
    
 
     if mobhits:
         draw_text("You Win", 40, RED, 80, HEIGHT / 24)
         
-   
-
     
     # gives the player color
     player.image.fill((player.r,player.g,player.b))
