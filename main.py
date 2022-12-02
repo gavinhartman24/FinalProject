@@ -47,6 +47,7 @@ HEIGHT = 480
 FPS = 30
 mpos = (0,0)
 
+window = WIDTH, HEIGHT
 # # player settings
 PLAYER_GRAV = 0.5
 PLAYER_FRIC = 0.1
@@ -119,14 +120,15 @@ class Player(Sprite):
         self.pos += self.vel + 0.5 * self.acc
         self.rect.midbottom = self.pos
         # setting up for next method where player collides with platforms
-        self.collide_with_walls('x')
-        self.rect.centery = self.pos.y
-        self.collide_with_walls('y')
-        self.rect.center = self.pos
+        # make sure if change back to change back to collide_with_walls
+        self.collision_test(x)
+        self.rect.centery = self.pos.x
+        self.collision_test(y)
+        self.rect.center = self.pos.y
         self.hitx = self.hitx
         self.hity = self.hity
     # if the player collides with a platform, it does not go through the platform
-    def collide_with_walls(self, dir):
+    '''def collide_with_walls(self, dir):
         if dir == 'x':
             hits = pg.sprite.spritecollide(self, all_plats, False)
             if hits:
@@ -163,7 +165,62 @@ class Player(Sprite):
                 self.hitx = hits[0].rect.centerx
                 self.hity = hits[0].rect.centery
             else:
-                self.colliding = False
+                self.colliding = False'''
+    # Krisjan Harnish's platform code
+    def collision_test(self,plats):
+        collisions = []
+        for plat in plats:
+            if self.rect.colliderect(plat):
+                collisions.append(plat)
+                return(collisions)
+
+    def movement(self, plats):
+       
+        self.acc = vec(0,PLAYER_GRAV)
+
+        self.controls()
+
+        self.acc.x += self.vel.x * PLAYER_FRIC
+        self.vel.x += self.acc.x
+        self.pos.x += self.vel.x + 0.5 * self.acc.x
+        self.rect.centerx = self.pos.x
+
+        collisions = self.collision_test(plats)
+        for plat in collisions:
+            if self.vel.x>0:
+                self.rect.right = plat.rect.left
+                self.acc.x = 0
+                self.vel.x = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
+            if self.vel.x<0:
+                self.rect.left = plat.rect.right
+                self.acc.x = 0
+                self.vel.x = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
+
+                self.acc.y += self.vel.y * PLAYER_FRIC
+                self.vel.y += self.acc.y
+                self.pos.y += self.vel.y + 0.5 * self.acc.y
+                self.rect.centery = self.pos.y
+
+        collisions = self.collision_test(plats)
+        for plat in collisions:
+            if self.vel.y>0:
+                self.rect.bottom = plat.rect.top
+                self.acc.y = 0
+                self.vel.y = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
+                self.canJump = True
+            if self.vel.y<0:
+                self.rect.top = plat.rect.bottom
+                self.acc.y = 0
+                self.vel.y = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
+
  
 
 # this class is for the platform the player will be moving around on and moving through the "maze"
@@ -254,21 +311,24 @@ while running:
     # aim is to make a platform where the playe doesn't go through, because previous code the player did
     # 
 
-    player_x = 0
-    player_y = 390
-    x = 150
-    y= 50
-    rect = Rect(x, y, 200, 50)
-    player_rect = Rect(player_x, player_y, 50, 50)
-    collide = pg.Rect.colliderect(rect, player_rect) 
+    # player_x = 0
+    # player_y = 390
+    # x = 150
+    # y= 50
+    # rect = Rect(x, y, 200, 50)
+    # player_rect = Rect(player_x, player_y, 50, 50)
+    # collide = pg.Rect.colliderect(rect, player_rect) 
 
-    if collide:
+    # pg.draw.rect(window, (220, 0, 0),rect)
+    # pg.display.update()
+
+    # if collide:
         
-        pass
+    #     pass
    
 
-    if mobhits:
-        draw_text("You Win", 40, RED, 80, HEIGHT / 24)
+    # if mobhits:
+    #     draw_text("You Win", 40, RED, 80, HEIGHT / 24)
         
     
     # gives the player color
