@@ -76,6 +76,7 @@ def colorbyte():
 # sprites..
 # This player needs to be able to be on the screen. move around the screen, updates itself by... 
 # taking input from the person using the controls and collide with mobs to eat the mobs
+
 class Player(Sprite):
     # basic elements of the player
     def __init__(self):
@@ -121,12 +122,12 @@ class Player(Sprite):
         self.rect.midbottom = self.pos
         # setting up for next method where player collides with platforms
         # make sure if change back to change back to collide_with_walls
-        # self.collision_test(plat)
-        # self.rect.centery = self.pos.x
-        # self.collision_test(plat)
-        # self.rect.centerx = self.pos.y
-        # self.hitx = self.hitx
-        # self.hity = self.hity
+        self.collision_test(x)
+        self.rect.centery = self.pos.x
+        self.collision_test(y)
+        self.rect.center = self.pos.y
+        self.hitx = self.hitx
+        self.hity = self.hity
     # if the player collides with a platform, it does not go through the platform
     '''def collide_with_walls(self, dir):
         if dir == 'x':
@@ -149,6 +150,7 @@ class Player(Sprite):
                 self.hity = hits[0].rect.centery
             else:
                 self.colliding = False
+
         if dir == 'y':
             hits = pg.sprite.spritecollide(self, all_plats, False)
             if hits:
@@ -166,59 +168,59 @@ class Player(Sprite):
             else:
                 self.colliding = False'''
     # Krisjan Harnish's platform code
-    # def collision_test(self,plats):
-    #     collisions = []
-    #     for p in plats:
-    #         if self.rect.colliderect(p):
-    #             collisions.append(p)
-    #             return(collisions)
+    def collision_test(self,plats):
+        collisions = []
+        for plat in plats:
+            if self.rect.colliderect(plat):
+                collisions.append(plat)
+                return(collisions)
 
-    # def movement(self, plats):
+    def movement(self, plats):
        
-    #     self.acc = vec(0,PLAYER_GRAV)
+        self.acc = vec(0,PLAYER_GRAV)
 
-    #     self.controls()
+        self.controls()
 
-    #     self.acc.x += self.vel.x * PLAYER_FRIC
-    #     self.vel.x += self.acc.x
-    #     self.pos.x += self.vel.x + 0.5 * self.acc.x
-    #     self.rect.centerx = self.pos.x
+        self.acc.x += self.vel.x * PLAYER_FRIC
+        self.vel.x += self.acc.x
+        self.pos.x += self.vel.x + 0.5 * self.acc.x
+        self.rect.centerx = self.pos.x
 
-        # collisions = self.collision_test(plats)
-        # for plat in collisions:
-        #     if self.vel.x>0:
-        #         self.rect.right = plat.rect.left
-        #         self.acc.x = 0
-        #         self.vel.x = 0
-        #         self.pos = self.rect.center
-        #         self.pos += self.vel + 0.5 * self.acc
-        #     if self.vel.x<0:
-        #         self.rect.left = plat.rect.right
-        #         self.acc.x = 0
-        #         self.vel.x = 0
-        #         self.pos = self.rect.center
-        #         self.pos += self.vel + 0.5 * self.acc
+        collisions = self.collision_test(plats)
+        for plat in collisions:
+            if self.vel.x>0:
+                self.rect.right = plat.rect.left
+                self.acc.x = 0
+                self.vel.x = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
+            if self.vel.x<0:
+                self.rect.left = plat.rect.right
+                self.acc.x = 0
+                self.vel.x = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
 
-        #         self.acc.y += self.vel.y * PLAYER_FRIC
-        #         self.vel.y += self.acc.y
-        #         self.pos.y += self.vel.y + 0.5 * self.acc.y
-        #         self.rect.centery = self.pos.y
+                self.acc.y += self.vel.y * PLAYER_FRIC
+                self.vel.y += self.acc.y
+                self.pos.y += self.vel.y + 0.5 * self.acc.y
+                self.rect.centery = self.pos.y
 
-        # collisions = self.collision_test(plats)
-        # for plat in collisions:
-        #     if self.vel.y>0:
-        #         self.rect.bottom = plat.rect.top
-        #         self.acc.y = 0
-        #         self.vel.y = 0
-        #         self.pos = self.rect.center
-        #         self.pos += self.vel + 0.5 * self.acc
-        #         self.canJump = True
-        #     if self.vel.y<0:
-        #         self.rect.top = plat.rect.bottom
-        #         self.acc.y = 0
-        #         self.vel.y = 0
-        #         self.pos = self.rect.center
-        #         self.pos += self.vel + 0.5 * self.acc
+        collisions = self.collision_test(plats)
+        for plat in collisions:
+            if self.vel.y>0:
+                self.rect.bottom = plat.rect.top
+                self.acc.y = 0
+                self.vel.y = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
+                self.canJump = True
+            if self.vel.y<0:
+                self.rect.top = plat.rect.bottom
+                self.acc.y = 0
+                self.vel.y = 0
+                self.pos = self.rect.center
+                self.pos += self.vel + 0.5 * self.acc
 
  
 
@@ -301,21 +303,6 @@ while running:
 
 #  makes sure all sprites are updating every 1/30of a second
     all_sprites.update()
-    if player.vel.y > 0:
-        # print('working...')
-        hits = pg.sprite.spritecollide(player, all_plats, False)
-        if hits:
-            # print('working')
-            # print(player.rect.bottom >= hits[0].rect.top)
-            if player.rect.bottom >= hits[0].rect.top + 1:
-                # print('working bottom')
-                player.pos.y = hits[0].rect.top
-                player.vel.y = 0
-            # print(player.rect.top >= hits[0].rect.bottom )
-            elif player.rect.top >= hits[0].rect.bottom - 1:
-                print("working top")
-                player.pos.y = hits[0].rect.top 
-                player.vel.y = 50
     #colors the screen 
     screen.fill(BLACK)
 #    established the FPS clock
