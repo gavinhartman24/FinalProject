@@ -42,16 +42,19 @@ vec = pg.math.Vector2
 
 
 # # game settings 
-WIDTH = 360
-HEIGHT = 480
+WIDTH = 1200
+HEIGHT = 800
 FPS = 30
 mpos = (0,0)
 
 window = WIDTH, HEIGHT
 # # player settings
-PLAYER_GRAV = 0.5
-PLAYER_FRIC = 0.1
+PLAYER_GRAV = 1
+PLAYER_FRIC = 0.5
 SCORE = 0
+
+class Screen(): 
+    pass
 
 # # define colors
 WHITE = (255, 255, 255)
@@ -91,6 +94,7 @@ class Player(Sprite):
         self.image.fill((self.r,self.g,self.b))
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
+        self.rect.center = (1150, 450)
         self.pos = vec(WIDTH, HEIGHT/2)
         self.vel = vec(0,0)
         self.acc = vec(0,0)
@@ -258,9 +262,12 @@ clock = pg.time.Clock()
 # calls classes
 player = Player()
 # uses platform class to actually create the platform seen in game
-plat = Platform(0, 350, 5000, 35)
+plat = Platform(0, 650, 5000, 35)
 plat1 = Platform(100, 50, 2400, 35)
-plat2 = Platform(0, 200, 200, 35)
+plat2 = Platform(0, 200, 1140, 35)
+plat3 = Platform(0, 500, 60, 35)
+plat4 = Platform(200, 375, 70, 35)
+plat5 = Platform(700, 180, 30, 45)
 # uses mob class to actually creat the mob seen in game
 mob = Mob(200, 30, 15, 15, GREEN,)
 
@@ -273,8 +280,8 @@ mobs = pg.sprite.Group()
 
 
 # add things to groups
-all_sprites.add(player, plat, plat1, plat2, mob)
-all_plats.add(plat, plat1, plat2)
+all_sprites.add(player, plat, plat1, plat2, plat3, plat4, plat5, mob)
+all_plats.add(plat, plat1, plat2, plat3, plat4, plat5)
 mobs.add(mob)
 
 
@@ -282,6 +289,10 @@ mobs.add(mob)
 ############################# Game loop ###########################################
 # starts timer...
 start_ticks = pg.time.get_ticks()
+
+def screenfun():
+
+    pass
 
 # if the game is running, everything is runinng
 running = True
@@ -312,10 +323,10 @@ while running:
                 player.pos.y = hits[0].rect.top
                 player.vel.y = 0
             # print(player.rect.top >= hits[0].rect.bottom )
-            elif player.rect.top >= hits[0].rect.bottom - 1:
+            elif player.rect.top >= hits[0].rect.bottom +1:
                 print("working top")
                 player.pos.y = hits[0].rect.top 
-                player.vel.y = 50
+                player.vel.y = 0
     #colors the screen 
     screen.fill(BLACK)
 #    established the FPS clock
