@@ -112,8 +112,11 @@ class Player(Sprite):
             self.acc.x = .5
     # allows the player tp jump up and around blocks.
     def jump(self):
-        self.rect.x += .5
-        self.rect.x += -3
+        self.rect.x += 1
+        hits = pg.sprite.spritecollide(self, all_plats, mobs, False)
+        self.rect.x += -1
+        if hits:
+            self.vel.y = -20
     # tells the person where it is on the screen 
     def update(self):
         self.acc = vec(0,PLAYER_GRAV)
@@ -323,10 +326,11 @@ while running:
                 player.pos.y = hits[0].rect.top
                 player.vel.y = 0
             # print(player.rect.top >= hits[0].rect.bottom )
-            elif player.rect.top >= hits[0].rect.bottom +1:
+            if player.rect.top >= hits[0].rect.bottom -1:
                 print("working top")
                 player.pos.y = hits[0].rect.top 
                 player.vel.y = 0
+       
     #colors the screen 
     screen.fill(BLACK)
 #    established the FPS clock
