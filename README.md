@@ -9,16 +9,21 @@ Description:
 
 The player is dropped onto the map and you have to manuever the player around the platforms using WASD and reach a green square as the prize to end the game.
 
-Getting Started
+
+
+               Getting Started
+
 
 Dependencies:
 
 Python, Pygame
 
-Installing:
-Dowload both the Classes files and main file and run through python
 
-Help
+
+Installing:
+
+Copy and paste the main file into a folder, then do the same thing with the Class file into the same folder, and then run the game
+
 
 
 Authors:
